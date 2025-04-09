@@ -4,7 +4,8 @@
   "scripts": {
     "dev": "tsx watch src/server.ts",
     "lint": "eslint .",
-    "format": "prettier . --write"
+    "format": "prettier . --write",
+    "format:prisma": "prisma format --schema=\"prisma/schema.prisma\""
   },
   "dependencies": {
     "@prisma/client": "^6.6.0",
