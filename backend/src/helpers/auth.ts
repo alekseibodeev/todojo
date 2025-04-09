@@ -4,9 +4,16 @@ import type { Request } from 'express';
 import jwt from 'jsonwebtoken';
 
 export const generateToken = (userId: string) => {
-  return jwt.sign(userId, config.tokenSecret, {
+  return jwt.sign({ userId }, config.tokenSecret, {
     expiresIn: config.tokenExpires,
   });
+};
+
+export const verifyToken = (token: string) => {
+  const { userId } = jwt.verify(token, config.tokenSecret) as {
+    userId: string;
+  };
+  return userId;
 };
 
 export const hashPassword = async (password: string) => {
