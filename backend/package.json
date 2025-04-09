@@ -2,6 +2,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
+    "dev": "tsx watch src/server.ts",
     "lint": "eslint .",
     "format": "prettier . --write"
   },
