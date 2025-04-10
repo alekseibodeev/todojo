@@ -3,6 +3,7 @@ import {
   generateToken,
   hashPassword,
 } from '../helpers/auth.ts';
+import HttpError from '../helpers/error.ts';
 import prisma from '../helpers/prisma.ts';
 import type { NextFunction, Request, Response } from 'express';
 
@@ -20,7 +21,7 @@ export const register = async (
     const { email, password } = req.body;
 
     if (!email || !password) {
-      throw new Error(); // TODO
+      throw new HttpError(400, 'Email and password are required');
     }
 
     const existingUser = await prisma.user.findUnique({
@@ -28,7 +29,7 @@ export const register = async (
     });
 
     if (existingUser) {
-      throw new Error(); // TODO
+      throw new HttpError(409, 'User already exists');
     }
 
     const hashedPassword = await hashPassword(password);
@@ -63,7 +64,7 @@ export const login = async (
     const { email, password } = req.body;
 
     if (!email || !password) {
-      throw new Error(); // TODO
+      throw new HttpError(400, 'Email and password are required');
     }
 
     const user = await prisma.user.findUnique({
@@ -73,13 +74,13 @@ export const login = async (
     });
 
     if (!user) {
-      throw new Error(); // TODO
+      throw new HttpError(401, 'Invalid credentials');
     }
 
     const isPasswordMatch = await comparePassword(password, user.password);
 
     if (!isPasswordMatch) {
-      throw new Error(); // TODO
+      throw new HttpError(401, 'Invalid credentials');
     }
 
     const token = generateToken(user.id);

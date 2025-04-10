@@ -1,3 +1,4 @@
+import HttpError from '../helpers/error.ts';
 import prisma from '../helpers/prisma.ts';
 import type { NextFunction, Request, Response } from 'express';
 
@@ -21,7 +22,7 @@ export const editTask = async (
     const editedFields = req.body;
 
     if (!editedFields || (!editedFields.title && !editedFields.completed)) {
-      throw new Error(); // TODO
+      throw new HttpError(400, 'Non-empty task field is required');
     }
 
     const existingTask = await prisma.task.findUnique({
@@ -32,7 +33,7 @@ export const editTask = async (
     });
 
     if (!existingTask) {
-      throw new Error(); // TODO
+      throw new HttpError(403, 'Forbidden');
     }
 
     const task = await prisma.task.update({
@@ -72,7 +73,7 @@ export const deleteTask = async (
     });
 
     if (!existingTask) {
-      throw new Error(); // TODO
+      throw new HttpError(403, 'Forbidden');
     }
 
     await prisma.task.delete({

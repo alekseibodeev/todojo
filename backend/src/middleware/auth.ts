@@ -1,4 +1,5 @@
 import { getAuthToken, verifyToken } from '../helpers/auth.ts';
+import HttpError from '../helpers/error.ts';
 import prisma from '../helpers/prisma.ts';
 import type { NextFunction, Request, Response } from 'express';
 
@@ -11,7 +12,7 @@ export const authenticate = async (
     const token = getAuthToken(req);
 
     if (!token) {
-      throw new Error(); // TODO
+      throw new HttpError(401, 'Authentication required');
     }
 
     const decoded = verifyToken(token);
@@ -27,7 +28,7 @@ export const authenticate = async (
     });
 
     if (!user) {
-      throw new Error(); // TODO
+      throw new HttpError(401, 'User not found');
     }
 
     req.user = user;

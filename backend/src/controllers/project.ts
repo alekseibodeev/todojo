@@ -1,3 +1,4 @@
+import HttpError from '../helpers/error.ts';
 import prisma from '../helpers/prisma.ts';
 import type { NextFunction, Request, Response } from 'express';
 
@@ -31,7 +32,7 @@ export const createProject = async (
     const { title } = req.body;
 
     if (!title) {
-      throw new Error(); // TODO
+      throw new HttpError(400, 'Title is required');
     }
 
     const project = await prisma.project.create({
@@ -71,7 +72,7 @@ export const getTasks = async (
     });
 
     if (!project) {
-      throw new Error(); // TODO
+      throw new HttpError(403, 'Forbidden');
     }
 
     const tasks = await prisma.task.findMany({
@@ -105,7 +106,7 @@ export const createTask = async (
     const { title } = req.body;
 
     if (!title) {
-      throw new Error(); // TODO
+      throw new HttpError(400, 'Title is required');
     }
 
     const project = await prisma.project.findUnique({
@@ -116,7 +117,7 @@ export const createTask = async (
     });
 
     if (!project) {
-      throw new Error(); // TODO
+      throw new HttpError(403, 'Forbidden');
     }
 
     const task = await prisma.task.create({
@@ -148,7 +149,7 @@ export const editProject = async (
     const { title } = req.body;
 
     if (!title) {
-      throw new Error(); // TODO
+      throw new HttpError(400, 'Title is required');
     }
 
     const existingProject = await prisma.project.findUnique({
@@ -159,7 +160,7 @@ export const editProject = async (
     });
 
     if (!existingProject) {
-      throw new Error(); // TODO
+      throw new HttpError(403, 'Forbidden');
     }
 
     const project = await prisma.project.update({
@@ -198,7 +199,7 @@ export const deleteProject = async (
     });
 
     if (!project) {
-      throw new Error(); // TODO
+      throw new HttpError(403, 'Forbidden');
     }
 
     await Promise.all([
