@@ -1,5 +1,6 @@
 import app from './app.ts';
+import { config } from './config/config.ts';
 
-app.listen(3000, () => {
-  console.log('Server is running at http://localhost:3000');
+app.listen(config.port, () => {
+  console.log(`Server is listening to port ${config.port}`);
 });
