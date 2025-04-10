@@ -1,3 +1,11 @@
+import {
+  createProject,
+  createTask,
+  deleteProject,
+  editProject,
+  getProjects,
+  getTasks,
+} from '../controllers/project.ts';
 import { authenticate } from '../middleware/auth.ts';
 import express from 'express';
 
@@ -5,29 +13,16 @@ const projectRouter = express.Router();
 
 projectRouter.use(authenticate);
 
-projectRouter.get('/', () => {
-  // Get all projects
-});
+projectRouter.get('/', getProjects);
 
-projectRouter.post('/', () => {
-  // Create new project
-});
+projectRouter.post('/', createProject);
 
-projectRouter.get('/:projectId', () => {
-  // Get all tasks related to project with projectId
-});
+projectRouter.get('/:projectId', getTasks);
 
-projectRouter.post('/:projectId', () => {
-  // Create new task in project with projectId
-});
+projectRouter.post('/:projectId', createTask);
 
-projectRouter.patch('/:projectId', () => {
-  // Edit project with projectId
-});
+projectRouter.patch('/:projectId', editProject);
 
-projectRouter.delete('/:projectId', () => {
-  // Delete project with projectId
-  // and all its tasks
-});
+projectRouter.delete('/:projectId', deleteProject);
 
 export default projectRouter;
