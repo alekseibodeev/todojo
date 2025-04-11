@@ -1,6 +1,22 @@
-import { getAuthToken } from './auth.ts';
+import { getAuthToken, verifyToken } from './auth.ts';
 import type { Request } from 'express';
-import { describe, expect, it } from 'vitest';
+import jwt from 'jsonwebtoken';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
+
+vi.mock('jsonwebtoken', () => ({
+  default: {
+    verify: vi.fn((token: string) => {
+      if (token === 'valid') return { userId: 'id' };
+      throw new Error();
+    }),
+  },
+}));
+
+vi.mock('../config/config', () => ({
+  config: {
+    tokenSecret: 'secret',
+  },
+}));
 
 describe('helpers/auth', () => {
   const token = 'jsonwebtoken';
@@ -52,6 +68,22 @@ describe('helpers/auth', () => {
       } as Request;
 
       expect(getAuthToken(req)).toBeUndefined();
+    });
+  });
+
+  describe('verifyToken', () => {
+    beforeEach(() => {
+      vi.resetAllMocks();
+    });
+
+    it('should return user id when token is valid', () => {
+      const userId = verifyToken('valid');
+      expect(jwt.verify).toHaveBeenCalledWith('valid', 'secret');
+      expect(userId).toBe('id');
+    });
+
+    it('shoudl throw an error when token is invalid', () => {
+      expect(() => verifyToken('invalid')).toThrow();
     });
   });
 });
