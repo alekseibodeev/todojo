@@ -1,4 +1,5 @@
 import { config } from '../config/config.ts';
+import HttpError from './error.ts';
 import bcrypt from 'bcrypt';
 import type { Request } from 'express';
 import jwt from 'jsonwebtoken';
@@ -10,10 +11,14 @@ export const generateToken = (userId: string) => {
 };
 
 export const verifyToken = (token: string) => {
-  const { userId } = jwt.verify(token, config.tokenSecret) as {
-    userId: string;
-  };
-  return userId;
+  try {
+    const { userId } = jwt.verify(token, config.tokenSecret) as {
+      userId: string;
+    };
+    return userId;
+  } catch {
+    throw new HttpError(401, 'Unauthorized');
+  }
 };
 
 export const hashPassword = async (password: string) => {
