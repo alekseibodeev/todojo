@@ -1,11 +1,10 @@
 import {
   createProject,
-  createTask,
   deleteProject,
   editProject,
   getProjects,
-  getTasks,
 } from '../controllers/project.ts';
+import { createTask, getTasks } from '../controllers/task.ts';
 import { authenticate } from '../middleware/auth.ts';
 import express from 'express';
 

@@ -1,7 +1,87 @@
 import HttpError from '../helpers/error.ts';
 import prisma from '../helpers/prisma.ts';
+import type { ProjectQueryParams } from '../types/project.ts';
 import type { TaskQueryParams, TaskRequestBody } from '../types/task.ts';
 import type { NextFunction, Request, Response } from 'express';
+
+export const getTasks = async (
+  req: Request<never, never, never, ProjectQueryParams>,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const user = req.user!;
+    const { projectId } = req.query;
+
+    const project = await prisma.project.findUnique({
+      where: {
+        id: projectId,
+        userId: user.id,
+      },
+    });
+
+    if (!project) {
+      throw new HttpError(403, 'Forbidden');
+    }
+
+    const tasks = await prisma.task.findMany({
+      where: {
+        projectId,
+      },
+      omit: {
+        userId: true,
+        projectId: true,
+      },
+    });
+
+    res.json(tasks);
+  } catch (err) {
+    return next(err);
+  }
+};
+
+export const createTask = async (
+  req: Request<never, never, TaskRequestBody, ProjectQueryParams>,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const user = req.user!;
+    const { projectId } = req.query;
+    const { title } = req.body;
+
+    if (!title) {
+      throw new HttpError(400, 'Title is required');
+    }
+
+    const project = await prisma.project.findUnique({
+      where: {
+        id: projectId,
+        userId: user.id,
+      },
+    });
+
+    if (!project) {
+      throw new HttpError(403, 'Forbidden');
+    }
+
+    const task = await prisma.task.create({
+      data: {
+        title,
+        userId: user.id,
+        projectId,
+      },
+      omit: {
+        userId: true,
+        projectId: true,
+      },
+    });
+
+    res.status(201).json(task);
+  } catch (err) {
+    return next(err);
+  }
+};
 
 export const editTask = async (
   req: Request<never, never, TaskRequestBody, TaskQueryParams>,
