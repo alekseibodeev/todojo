@@ -25,5 +25,9 @@ export const comparePassword = async (password: string, hash: string) => {
 };
 
 export const getAuthToken = (req: Request) => {
-  return req.headers.authorization?.trim().replace(/^Bearer\s+/i, '');
+  const authHeader = req.headers.authorization || '';
+  const isValidAuthHeader = /^\s*Bearer\s+\w+\s*$/i.test(authHeader);
+  if (isValidAuthHeader) {
+    return authHeader.trim().replace(/^Bearer\s+/i, '');
+  }
 };
