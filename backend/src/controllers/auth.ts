@@ -5,15 +5,11 @@ import {
 } from '../helpers/auth.ts';
 import HttpError from '../helpers/error.ts';
 import prisma from '../helpers/prisma.ts';
+import type { AuthRequestBody } from '../types/auth.ts';
 import type { NextFunction, Request, Response } from 'express';
 
-interface RequestBody {
-  email?: string;
-  password?: string;
-}
-
 export const register = async (
-  req: Request<never, never, RequestBody>,
+  req: Request<never, never, AuthRequestBody>,
   res: Response,
   next: NextFunction,
 ) => {
@@ -56,7 +52,7 @@ export const register = async (
 };
 
 export const login = async (
-  req: Request<never, never, RequestBody>,
+  req: Request<never, never, AuthRequestBody>,
   res: Response,
   next: NextFunction,
 ) => {

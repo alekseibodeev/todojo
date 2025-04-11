@@ -1,15 +1,7 @@
 import HttpError from '../helpers/error.ts';
 import prisma from '../helpers/prisma.ts';
+import type { TaskQueryParams, TaskRequestBody } from '../types/task.ts';
 import type { NextFunction, Request, Response } from 'express';
-
-interface TaskRequestBody {
-  title?: string;
-  completed?: boolean;
-}
-
-interface TaskQueryParams {
-  taskId: string;
-}
 
 export const editTask = async (
   req: Request<never, never, TaskRequestBody, TaskQueryParams>,

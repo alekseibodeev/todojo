@@ -1,5 +1,9 @@
 import HttpError from '../helpers/error.ts';
 import prisma from '../helpers/prisma.ts';
+import type {
+  ProjectQueryParams,
+  ProjectRequestBody,
+} from '../types/project.ts';
 import type { NextFunction, Request, Response } from 'express';
 
 export const getProjects = async (req: Request, res: Response) => {
@@ -16,11 +20,6 @@ export const getProjects = async (req: Request, res: Response) => {
 
   res.json(projects);
 };
-
-interface ProjectRequestBody {
-  title?: string;
-}
-
 export const createProject = async (
   req: Request<never, never, ProjectRequestBody>,
   res: Response,
@@ -50,10 +49,6 @@ export const createProject = async (
     return next(err);
   }
 };
-
-interface ProjectQueryParams {
-  projectId: string;
-}
 
 export const getTasks = async (
   req: Request<never, never, never, ProjectQueryParams>,
