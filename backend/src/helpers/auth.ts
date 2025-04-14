@@ -31,7 +31,7 @@ export const comparePassword = async (password: string, hash: string) => {
 
 export const getAuthToken = (req: Request) => {
   const authHeader = req.headers.authorization || '';
-  const isValidAuthHeader = /^\s*Bearer\s+\w+\s*$/i.test(authHeader);
+  const isValidAuthHeader = /^\s*Bearer\s+.+\s*$/i.test(authHeader);
   if (isValidAuthHeader) {
     return authHeader.trim().replace(/^Bearer\s+/i, '');
   }

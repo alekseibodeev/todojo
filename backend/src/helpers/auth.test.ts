@@ -6,7 +6,8 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 vi.mock('jsonwebtoken', () => ({
   default: {
     verify: vi.fn((token: string) => {
-      if (token === 'valid') return { userId: 'id' };
+      const tokenRegex = /^[\w-]+\.[\w-]+\.[\w-]+$/
+      if (tokenRegex.test(token)) return { userId: 'id' };
       throw new Error();
     }),
   },
@@ -19,7 +20,7 @@ vi.mock('../config/config', () => ({
 }));
 
 describe('helpers/auth', () => {
-  const token = 'jsonwebtoken';
+  const token = 'json-web.token.here99';
 
   describe('getAuthToken', () => {
     it('should return token when header is in the standard format', () => {
@@ -77,8 +78,8 @@ describe('helpers/auth', () => {
     });
 
     it('should return user id when token is valid', () => {
-      const userId = verifyToken('valid');
-      expect(jwt.verify).toHaveBeenCalledWith('valid', 'secret');
+      const userId = verifyToken(token);
+      expect(jwt.verify).toHaveBeenCalledWith(token, 'secret');
       expect(userId).toBe('id');
     });
 
