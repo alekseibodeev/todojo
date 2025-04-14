@@ -115,19 +115,18 @@ export const deleteProject = async (
       throw new HttpError(403, 'Forbidden');
     }
 
-    await Promise.all([
-      prisma.task.deleteMany({
-        where: {
-          projectId,
-        },
-      }),
-      prisma.project.delete({
-        where: {
-          id: projectId,
-          userId: user.id,
-        },
-      }),
-    ]);
+    await prisma.task.deleteMany({
+      where: {
+        projectId,
+      },
+    });
+
+    await prisma.project.delete({
+      where: {
+        id: projectId,
+        userId: user.id,
+      },
+    });
 
     res.status(204).send();
   } catch (err) {
