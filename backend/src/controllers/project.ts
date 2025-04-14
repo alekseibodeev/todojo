@@ -20,6 +20,7 @@ export const getProjects = async (req: Request, res: Response) => {
 
   res.json(projects);
 };
+
 export const createProject = async (
   req: Request<never, never, ProjectRequestBody>,
   res: Response,
