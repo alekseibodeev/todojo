@@ -1,8 +1,8 @@
 import HttpError from '../helpers/error.ts';
 import prisma from '../helpers/prisma.ts';
 import type {
-  ProjectQueryParams,
   ProjectRequestBody,
+  ProjectRequestParams,
 } from '../types/project.ts';
 import type { NextFunction, Request, Response } from 'express';
 
@@ -52,13 +52,13 @@ export const createProject = async (
 };
 
 export const editProject = async (
-  req: Request<never, never, ProjectRequestBody, ProjectQueryParams>,
+  req: Request<ProjectRequestParams, never, ProjectRequestBody>,
   res: Response,
   next: NextFunction,
 ) => {
   try {
     const user = req.user!;
-    const { projectId } = req.query;
+    const { projectId } = req.params;
     const { title } = req.body;
 
     if (!title) {
@@ -96,13 +96,13 @@ export const editProject = async (
 };
 
 export const deleteProject = async (
-  req: Request<never, never, never, ProjectQueryParams>,
+  req: Request<ProjectRequestParams, never, never>,
   res: Response,
   next: NextFunction,
 ) => {
   try {
     const user = req.user!;
-    const { projectId } = req.query;
+    const { projectId } = req.params;
 
     const project = await prisma.project.findUnique({
       where: {

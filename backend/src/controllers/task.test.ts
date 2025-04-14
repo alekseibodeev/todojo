@@ -1,6 +1,6 @@
 import prismaMock from '../helpers/__mocks__/prisma.ts';
-import type { ProjectQueryParams } from '../types/project.ts';
-import type { TaskQueryParams, TaskRequestBody } from '../types/task.ts';
+import type { ProjectRequestParams } from '../types/project.ts';
+import type { TaskRequestBody, TaskRequestParams } from '../types/task.ts';
 import { createTask, deleteTask, editTask, getTasks } from './task.ts';
 import type { Project, Task } from '@prisma/client';
 import type { Request, Response } from 'express';
@@ -19,10 +19,10 @@ describe('controllers/task', () => {
         user: {
           id: 'id',
         },
-        query: {
+        params: {
           projectId: 'project_id',
         },
-      } as Request<never, never, never, ProjectQueryParams>;
+      } as Request<ProjectRequestParams, never, never>;
       const res = {
         json: vi.fn(),
       } as unknown as Response;
@@ -41,10 +41,10 @@ describe('controllers/task', () => {
         user: {
           id: 'id',
         },
-        query: {
+        params: {
           projectId: 'project_id',
         },
-      } as Request<never, never, never, ProjectQueryParams>;
+      } as Request<ProjectRequestParams, never, never>;
       const res = {} as Response;
       const next = vi.fn();
 
@@ -67,10 +67,10 @@ describe('controllers/task', () => {
         user: {
           id: 'id',
         },
-        query: {
+        params: {
           projectId: 'project_id',
         },
-      } as Request<never, never, TaskRequestBody, ProjectQueryParams>;
+      } as Request<ProjectRequestParams, never, TaskRequestBody>;
       const res = {
         status: vi.fn().mockReturnThis(),
         json: vi.fn(),
@@ -92,10 +92,10 @@ describe('controllers/task', () => {
         user: {
           id: 'id',
         },
-        query: {
+        params: {
           projectId: 'project_id',
         },
-      } as Request<never, never, TaskRequestBody, ProjectQueryParams>;
+      } as Request<ProjectRequestParams, never, TaskRequestBody>;
       const res = {} as Response;
       const next = vi.fn();
 
@@ -114,10 +114,10 @@ describe('controllers/task', () => {
         user: {
           id: 'id',
         },
-        query: {
+        params: {
           projectId: 'project_id',
         },
-      } as Request<never, never, TaskRequestBody, ProjectQueryParams>;
+      } as Request<ProjectRequestParams, never, TaskRequestBody>;
       const res = {} as Response;
       const next = vi.fn();
 
@@ -140,10 +140,10 @@ describe('controllers/task', () => {
         user: {
           id: 'id',
         },
-        query: {
+        params: {
           taskId: 'task_id',
         },
-      } as Request<never, never, TaskRequestBody, TaskQueryParams>;
+      } as Request<TaskRequestParams, never, TaskRequestBody>;
       const res = {
         json: vi.fn(),
       } as unknown as Response;
@@ -171,10 +171,10 @@ describe('controllers/task', () => {
         user: {
           id: 'id',
         },
-        query: {
+        params: {
           taskId: 'task_id',
         },
-      } as Request<never, never, TaskRequestBody, TaskQueryParams>;
+      } as Request<TaskRequestParams, never, TaskRequestBody>;
       const res = {
         json: vi.fn(),
       } as unknown as Response;
@@ -200,10 +200,10 @@ describe('controllers/task', () => {
         user: {
           id: 'id',
         },
-        query: {
+        params: {
           taskId: 'task_id',
         },
-      } as Request<never, never, TaskRequestBody, TaskQueryParams>;
+      } as Request<TaskRequestParams, never, TaskRequestBody>;
       const res = {} as Response;
       const next = vi.fn();
 
@@ -224,10 +224,10 @@ describe('controllers/task', () => {
         user: {
           id: 'id',
         },
-        query: {
+        params: {
           taskId: 'task_id',
         },
-      } as Request<never, never, TaskRequestBody, TaskQueryParams>;
+      } as Request<TaskRequestParams, never, TaskRequestBody>;
       const res = {} as Response;
       const next = vi.fn();
 
@@ -247,10 +247,10 @@ describe('controllers/task', () => {
         user: {
           id: 'id',
         },
-        query: {
+        params: {
           taskId: 'task_id',
         },
-      } as Request<never, never, never, TaskQueryParams>;
+      } as Request<TaskRequestParams, never, never>;
       const res = {
         status: vi.fn().mockReturnThis(),
         send: vi.fn(),
@@ -271,10 +271,10 @@ describe('controllers/task', () => {
         user: {
           id: 'id',
         },
-        query: {
+        params: {
           taskId: 'task_id',
         },
-      } as Request<never, never, never, TaskQueryParams>;
+      } as Request<TaskRequestParams, never, never>;
       const res = {} as Response;
       const next = vi.fn();
 

@@ -1,17 +1,17 @@
 import HttpError from '../helpers/error.ts';
 import prisma from '../helpers/prisma.ts';
-import type { ProjectQueryParams } from '../types/project.ts';
-import type { TaskQueryParams, TaskRequestBody } from '../types/task.ts';
+import type { ProjectRequestParams } from '../types/project.ts';
+import type { TaskRequestBody, TaskRequestParams } from '../types/task.ts';
 import type { NextFunction, Request, Response } from 'express';
 
 export const getTasks = async (
-  req: Request<never, never, never, ProjectQueryParams>,
+  req: Request<ProjectRequestParams, never, never>,
   res: Response,
   next: NextFunction,
 ) => {
   try {
     const user = req.user!;
-    const { projectId } = req.query;
+    const { projectId } = req.params;
 
     const project = await prisma.project.findUnique({
       where: {
@@ -41,13 +41,13 @@ export const getTasks = async (
 };
 
 export const createTask = async (
-  req: Request<never, never, TaskRequestBody, ProjectQueryParams>,
+  req: Request<ProjectRequestParams, never, TaskRequestBody>,
   res: Response,
   next: NextFunction,
 ) => {
   try {
     const user = req.user!;
-    const { projectId } = req.query;
+    const { projectId } = req.params;
     const { title } = req.body;
 
     if (!title) {
@@ -84,13 +84,13 @@ export const createTask = async (
 };
 
 export const editTask = async (
-  req: Request<never, never, TaskRequestBody, TaskQueryParams>,
+  req: Request<TaskRequestParams, never, TaskRequestBody>,
   res: Response,
   next: NextFunction,
 ) => {
   try {
     const user = req.user!;
-    const { taskId } = req.query;
+    const { taskId } = req.params;
     const editedFields = req.body;
 
     if (!editedFields || (!editedFields.title && !editedFields.completed)) {
@@ -129,13 +129,13 @@ export const editTask = async (
 };
 
 export const deleteTask = async (
-  req: Request<never, never, never, TaskQueryParams>,
+  req: Request<TaskRequestParams, never, never>,
   res: Response,
   next: NextFunction,
 ) => {
   try {
     const user = req.user!;
-    const { taskId } = req.query;
+    const { taskId } = req.params;
 
     const existingTask = await prisma.task.findUnique({
       where: {

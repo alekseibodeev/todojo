@@ -1,7 +1,7 @@
 import prismaMock from '../helpers/__mocks__/prisma.ts';
 import type {
-  ProjectQueryParams,
   ProjectRequestBody,
+  ProjectRequestParams,
 } from '../types/project.ts';
 import { createProject, deleteProject, editProject } from './project.ts';
 import type { Project } from '@prisma/client';
@@ -64,10 +64,10 @@ describe('controllers/project', () => {
         user: {
           id: 'id',
         },
-        query: {
+        params: {
           projectId: 'project_id',
         },
-      } as Request<never, never, ProjectRequestBody, ProjectQueryParams>;
+      } as Request<ProjectRequestParams, never, ProjectRequestBody>;
       const res = {
         json: vi.fn(),
       } as unknown as Response;
@@ -88,10 +88,10 @@ describe('controllers/project', () => {
     it('should throw an error when title is missing', async () => {
       const req = {
         body: {},
-        query: {
+        params: {
           projectId: 'project_id',
         },
-      } as Request<never, never, ProjectRequestBody, ProjectQueryParams>;
+      } as Request<ProjectRequestParams, never, ProjectRequestBody>;
       const res = {} as Response;
       const next = vi.fn();
 
@@ -110,10 +110,10 @@ describe('controllers/project', () => {
         user: {
           id: 'id',
         },
-        query: {
+        params: {
           projectId: 'project_id',
         },
-      } as Request<never, never, ProjectRequestBody, ProjectQueryParams>;
+      } as Request<ProjectRequestParams, never, ProjectRequestBody>;
       const res = {} as Response;
       const next = vi.fn();
 
@@ -133,10 +133,10 @@ describe('controllers/project', () => {
         user: {
           id: 'id',
         },
-        query: {
+        params: {
           projectId: 'project_id',
         },
-      } as Request<never, never, never, ProjectQueryParams>;
+      } as Request<ProjectRequestParams, never, never>;
       const res = {
         status: vi.fn().mockReturnThis(),
         send: vi.fn(),
@@ -158,10 +158,10 @@ describe('controllers/project', () => {
         user: {
           id: 'id',
         },
-        query: {
+        params: {
           projectId: 'project_id',
         },
-      } as Request<never, never, never, ProjectQueryParams>;
+      } as Request<ProjectRequestParams, never, never>;
       const res = {
         status: vi.fn().mockReturnThis(),
         send: vi.fn(),

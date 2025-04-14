@@ -3,6 +3,6 @@ export type TaskRequestBody = {
   completed?: boolean;
 };
 
-export type TaskQueryParams = {
+export type TaskRequestParams = {
   taskId: string;
 };

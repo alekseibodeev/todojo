@@ -2,6 +2,6 @@ export type ProjectRequestBody = {
   title?: string;
 };
 
-export type ProjectQueryParams = {
+export type ProjectRequestParams = {
   projectId: string;
 };
