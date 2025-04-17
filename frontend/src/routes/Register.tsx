@@ -4,7 +4,7 @@ const Register = () => {
   return (
     <div className="mx-auto max-w-md px-6">
       <div className="grid min-h-screen content-center">
-          <RegisterForm />
+        <RegisterForm />
       </div>
     </div>
   );
