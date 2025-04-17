@@ -1,4 +1,25 @@
 @import 'tailwindcss';
 @theme {
   --font-sans: Roboto, sans-serif;
+
+  --animate-side-bar-slide-in: slide-in 300ms ease-out;
+  --animate-side-bar-slide-out: slide-out 300ms ease-out;
+
+  @keyframes slide-in {
+    from {
+      width: 0;
+    }
+    to {
+      width: var(--radix-collapsible-content-width);
+    }
+  }
+
+  @keyframes slide-out {
+    from {
+      width: var(--radix-collapsible-content-width);
+    }
+    to {
+      width: 0;
+    }
+  }
 }
